@@ -1,0 +1,24 @@
+
+if(isset($_POST["duzenle_kaydet"]))
+{
+  $secilenler= "";
+  if (isset($_POST["fe_coklu_secim"]))
+  {
+    foreach($_POST["fe_coklu_secim"] as $secim):
+      echo $secilenler .=$secim.",";
+    endforeach;
+  }
+
+$sorgu2 =
+"UPDATE `tablo` SET `metin` = '".$_POST["fe_metin"]."',
+ `gizli` = '".$_POST["fe_hidden"]."',
+  `sifre` = '".$_POST["fe_sifre"]."',
+   `tik` = '".((isset($_POST["fe_tik"]))?1:0)."',
+    `radyo` = '".((isset($_POST["fe_radyo"]))?$_POST["fe_radyo"]:' ')."',
+     `secim` = ".$_POST["fe_secim"].",
+      `coklu` = '".$secilenler."',
+       `metinkutusu` = '".$_POST["fe_metin_kutusu"]."'
+        `dosya` = '".((isset($_FILES["fe_dosya"]["tmp_name"]))?$_FILES["fe_dosya"]["tmp_name"]:"")."'
+          WHERE `tablo`.`id` = ".$_POST["duzenlenecek_kayit_id"]." ";
+
+          $baglanti->query($sorgu2);
